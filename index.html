@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DragAndDrop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body class="has-background-light">
+    <section class="section">
+      <div class="container">
+        <div class="columns is-multiline">
+          <div class="column">
+            <p
+              class="notification is-primary has-text-centered dropbox"
+              id="fruit"
+            >
+              Fruite
+            </p>
+          </div>
+          <div class="column">
+            <p
+              class="notification is-primary has-text-centered dropbox"
+              id="vegetable"
+            >
+              Vegetable
+            </p>
+          </div>
+          <div class="column is-full">
+            <p class="is-flex">
+              <span class="box mx-2 drag-item" draggable="true">Apple</span>
+              <span class="box mx-2 drag-item" draggable="true">Carrot</span>
+              <span class="box mx-2 drag-item" draggable="true">Kiwi</span>
+              <span class="box mx-2 drag-item" draggable="true">Garbage</span>
+              <span class="box mx-2 mb-5 drag-item" draggable="true"
+                >Banana</span
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      let draged = null;
+
+      function handleDragStart(event) {
+        dragged = event.target;
+        console.log("dragstarted in", event.target);
+      }
+
+      function handleDrop(event) {
+        if (["fruit", "vegetable"].includes(event.target.id)) {
+          dragged.parentNode.removeChild(dragged);
+          event.target.appendChild(dragged);
+        }
+
+        console.log(event.target.id);
+      }
+
+      function handleDragoOver(event) {
+        event.preventDefault();
+      }
+
+      let dragItems = document.querySelectorAll(".drag-item");
+      let dropboxs = document.querySelectorAll(".dropbox");
+
+      dragItems.forEach((item) => {
+        item.addEventListener("dragstart", handleDragStart);
+        item.addEventListener("drop", handleDrop);
+      });
+
+      dropboxs.forEach((item) => {
+        item.addEventListener("dragover", handleDragoOver);
+        item.addEventListener("drop", handleDrop);
+      });
+    </script>
+  </body>
+</html>
